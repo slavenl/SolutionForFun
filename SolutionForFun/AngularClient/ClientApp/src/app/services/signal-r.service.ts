@@ -1,7 +1,7 @@
 
 import { Injectable } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
-import { ChartModel } from '../_interfaces/chartmodel.model';
+import { ChartModel } from '../_interfaces/chartmodel';
 
 @Injectable({
   providedIn: 'root'
