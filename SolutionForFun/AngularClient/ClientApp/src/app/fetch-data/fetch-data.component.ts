@@ -34,9 +34,9 @@ export class FetchDataComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 2
+      pageLength: 5
     };
-    this.http.get('http://localhost:5000/api/SampleData/WeatherForecasts')
+    this.http.get<WeatherForecastModel[]>('http://localhost:5000/api/SampleData/WeatherForecasts')
       //.map(this.extractData)
       .subscribe(forecasts => {
         this.forecasts = forecasts;
