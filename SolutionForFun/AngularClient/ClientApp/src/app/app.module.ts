@@ -16,6 +16,8 @@ import { HomeComponent } from './home/home.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { SignalRComponent } from './signalr-client/signalr-client.component';
 
+import { DataTablesModule } from 'angular-datatables';
+
 
 @NgModule({
   declarations: [
@@ -26,12 +28,13 @@ import { SignalRComponent } from './signalr-client/signalr-client.component';
     SignalRComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),   
+    BrowserModule,//.withServerTransition({ appId: 'ng-cli-universal' }),   
     NgbModule,
     AngularFontAwesomeModule,
     ChartsModule,
     HttpClientModule,
-    FormsModule,            
+    FormsModule,
+    DataTablesModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'fetch-data', component: FetchDataComponent },
