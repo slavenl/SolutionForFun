@@ -1,0 +1,14 @@
+<div class="card" style="width: 70rem;">
+  <fa name="cog" animation="spin"></fa>
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <canvas baseChart
+            [datasets]="signalRService.data"
+            [labels]="chartLabels"
+            [options]="chartOptions"
+            [legend]="chartLegend"
+            [chartType]="chartType"
+            [colors]="colors"></canvas>
+  </div>
+</div>
