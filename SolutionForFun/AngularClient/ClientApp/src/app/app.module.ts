@@ -10,6 +10,8 @@ import { ChartsModule } from 'ng2-charts';
 
 import { RouterModule } from '@angular/router';
 
+import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
@@ -18,6 +20,12 @@ import { SignalRComponent } from './signalr-client/signalr-client.component';
 
 import { DataTablesModule } from 'angular-datatables';
 
+import { AngularCRUDComponent } from './employee/employee-list.component';
+import { EmployeeAddComponent } from './employee/employee-add.component';
+import { EmployeeUpdateComponent } from './employee/employee-update.component';
+import { EmployeeDataService } from './services/employeedata.service'
+
+
 
 @NgModule({
   declarations: [
@@ -25,7 +33,10 @@ import { DataTablesModule } from 'angular-datatables';
     NavMenuComponent,
     HomeComponent,
     FetchDataComponent,
-    SignalRComponent
+    SignalRComponent,
+    AngularCRUDComponent,
+    EmployeeAddComponent,
+    EmployeeUpdateComponent
   ],
   imports: [
     BrowserModule,//.withServerTransition({ appId: 'ng-cli-universal' }),   
@@ -33,15 +44,17 @@ import { DataTablesModule } from 'angular-datatables';
     AngularFontAwesomeModule,
     ChartsModule,
     HttpClientModule,
+    AppRoutingModule,
     FormsModule,
     DataTablesModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'signalR', component: SignalRComponent },
+      { path: 'crud', component: AngularCRUDComponent },
     ])
   ],
-  providers: [],
+  providers: [EmployeeDataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

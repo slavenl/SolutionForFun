@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\employee\employee-Add.component.ts" />
     <None Remove="ClientApp\src\app\home\home.component.ts" />
     <None Remove="ClientApp\src\app\nav-menu\nav-menu.component.ts" />
   </ItemGroup>
@@ -21,6 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WebApiService.Infrastructure\WebApiService.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\employee\employee-add.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\home\home.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\nav-menu\nav-menu.component.ts" />
   </ItemGroup>

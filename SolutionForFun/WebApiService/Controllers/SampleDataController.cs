@@ -6,7 +6,7 @@ using WebApiService.Contracts.Models;
 namespace WebApiService.Controllers
 {
     [Route("api/[controller]")]
-    public class SampleDataController : Controller
+    public class SampleDataController : ControllerBase
     {
         private IRepository _repository;
 

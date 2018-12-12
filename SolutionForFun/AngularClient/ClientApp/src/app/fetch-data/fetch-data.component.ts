@@ -5,6 +5,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { WeatherForecastModel } from '../_interfaces/weatherforecastmodel';
 import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'fetch-data-component',
@@ -37,7 +38,7 @@ export class FetchDataComponent implements OnDestroy, OnInit {
       pageLength: 5
     };
     this.http.get<WeatherForecastModel[]>('http://localhost:5000/api/SampleData/WeatherForecasts')
-      //.map(this.extractData)
+       //.map(this.extractData)
       .subscribe(forecasts => {
         this.forecasts = forecasts;
         // Calling the DT trigger to manually render the table
