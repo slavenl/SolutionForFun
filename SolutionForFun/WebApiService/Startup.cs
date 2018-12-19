@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+﻿using BetradarMatchIDService.Helper;
+using Microsoft.AspNetCore.Builder;
+//using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using WebApiService.Contracts.Interfaces;
 using WebApiService.HubConfig;
 using WebApiService.Infrastructure;
+
 
 namespace WebApiService
 {
@@ -22,6 +25,10 @@ namespace WebApiService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Memory cache
+            services.AddMemoryCache();
+
+            //SignalR
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
@@ -31,10 +38,16 @@ namespace WebApiService
                     .AllowCredentials());
             });
 
-            services.AddTransient<IRepository, DummyRepository>();
-
             services.AddSignalR();
 
+            //Repository
+            services.AddTransient<IRepository, DummyRepository>();
+
+            //Custom services        
+
+            services.AddSingleton<IHostedService, DataProcessorService>();
+
+            //MVC
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -50,12 +63,13 @@ namespace WebApiService
                 app.UseHsts();
             }
 
+            //Logging - Serilog
             var logLocation = Configuration.GetSection("Logging").GetValue<string>("LogLocation");
 
             Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
             .WriteTo.RollingFile(logLocation + "log-.txt",
-                //   rollingInterval: RollingInterval.Day,
+                //  rollingInterval: RollingInterval.Day,
                 outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}",
                 fileSizeLimitBytes: 5242880)//5mb
             .WriteTo.Console(restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug)
@@ -71,6 +85,13 @@ namespace WebApiService
             });
 
             app.UseMvc();
+
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}");
+            //});
         }
     }
 }
