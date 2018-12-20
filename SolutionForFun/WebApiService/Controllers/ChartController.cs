@@ -11,9 +11,9 @@ namespace WebApiService.Controllers
     public class ChartController : ControllerBase
     {
         private IHubContext<ChartHub> _hub;
-        private IRepository _repository;
+        private IWeatherRepository _repository;
 
-        public ChartController(IHubContext<ChartHub> hub, IRepository repository)
+        public ChartController(IHubContext<ChartHub> hub, IWeatherRepository repository)
         {
             _hub = hub;
             _repository = repository;

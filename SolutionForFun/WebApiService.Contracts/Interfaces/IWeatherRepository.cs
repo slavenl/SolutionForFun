@@ -3,7 +3,7 @@ using WebApiService.Contracts.Models;
 
 namespace WebApiService.Contracts.Interfaces
 {
-    public interface IRepository
+    public interface IWeatherRepository
     {
         List<ChartModel> GetData();
         List<WeatherForecastModel> GetWeatherData();

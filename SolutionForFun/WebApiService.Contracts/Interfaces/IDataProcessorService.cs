@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace WebApiService.Contracts.Interfaces
 {
-    public interface IDataProcessor
+    public interface IDataProcessorService
     {
         void StartSync(string url, int delayInMs, CancellationToken ct);
         void StopSync();

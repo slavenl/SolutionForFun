@@ -1,18 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace WebApiService.Contracts.Models
 {
     public class Employee
     {
-      //  [Key]
+        public int EmployeeId { get; set; }
+        [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
 
-        public int ID { get; set; }
-        public string Fname { get; set; }
-        public string Lname { get; set; }
-        public string email { get; set; }
-        public string gender { get; set; }
+        public EmployeeData EmployeeData { get; set; }
+    }
+
+    public class EmployeeData
+    {
+
+        public int EmployeeDataId { get; set; }
+
+        [Required]
+        public string Email { get; set; }
+
+        public string Phone { get; set; }
+
+        [Required]
+        public string Gender { get; set; }
+
+        public int EmployeeId { get; set; }
 
     }
+
 }

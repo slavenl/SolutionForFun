@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using WebApiService.Contracts.Models;
 using WebApiService.Infrastructure;
@@ -15,24 +14,27 @@ namespace WebApiService.Controllers
     //[DisableCors]
     public class EmployeesController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly EmployeesDBContext _context;
 
-        public EmployeesController()
+        public EmployeesController(EmployeesDBContext context)
         {
+            _context = context;
             Log.Information("Service - Created");
-            //  _context = null;
 
         }
 
         // GET: api/Employees
         [HttpGet]
-        public IEnumerable<Employee> Gettblemployee()
+        public IEnumerable<Employee> GetEmployees()
         {
-            Log.Information("Service - Gettblemployee");
+            Log.Information("Service - GetEmployees");
 
-            List<Employee> lista = new List<Employee>() { new Employee() { email = "nesto", ID = 1, Fname = "Slaven", Lname = "Lukic", gender = "1" } };
 
-            return lista;// _context.tblemployee;
+            _context.Database.EnsureCreated();
+
+            List<Employee> lista = _context.Employees.Include(a => a.EmployeeData).ToList();
+
+            return lista;
         }
 
         // GET: api/Employees/5
@@ -45,7 +47,9 @@ namespace WebApiService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var employee = await _context.tblemployee.FindAsync(id);
+            var employee = _context.Employees.Include(a => a.EmployeeData).Where(x => x.EmployeeId == id).First();
+
+            await Task.CompletedTask;
 
             if (employee == null)
             {
@@ -65,18 +69,18 @@ namespace WebApiService.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != employee.ID)
+            if (id != employee.EmployeeId)
             {
                 return BadRequest();
             }
 
-            //  _context.Entry(employee).State = EntityState.Modified;
+            _context.Entry(employee).State = EntityState.Modified;
 
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch (Exception ex) //DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!EmployeeExists(id))
                 {
@@ -102,10 +106,10 @@ namespace WebApiService.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.tblemployee.Add(employee);
+            _context.Employees.Add(employee);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEmployee", new { id = employee.ID }, employee);
+            return CreatedAtAction("GetEmployee", new { id = employee.EmployeeId }, employee);
         }
 
         // DELETE: api/Employees/5
@@ -118,13 +122,13 @@ namespace WebApiService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var employee = await _context.tblemployee.FindAsync(id);
+            var employee = await _context.Employees.FindAsync(id);
             if (employee == null)
             {
                 return NotFound();
             }
 
-            _context.tblemployee.Remove(employee);
+            _context.Employees.Remove(employee);
             await _context.SaveChangesAsync();
 
             return Ok(employee);
@@ -132,7 +136,7 @@ namespace WebApiService.Controllers
 
         private bool EmployeeExists(int id)
         {
-            return _context.tblemployee.Any(e => e.ID == id);
+            return _context.Employees.Any(e => e.EmployeeId == id);
         }
     }
 }

@@ -6,7 +6,7 @@ using WebApiService.Contracts.Models;
 
 namespace WebApiService.Infrastructure
 {
-    public class DummyRepository : IRepository
+    public class WeatherRepository : IWeatherRepository
     {
         private static string[] Summaries = new[]
        {

@@ -5,6 +5,7 @@ using BetradarMatchIDService.Helper;
 using Microsoft.AspNetCore.Builder;
 //using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -45,7 +46,10 @@ namespace WebApiService
             services.AddSignalR();
 
             //Repository
-            services.AddTransient<IRepository, DummyRepository>();
+            services.AddTransient<IWeatherRepository, WeatherRepository>();
+
+            services.AddDbContext<EmployeesDBContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("Sqlite")));
 
             //Custom services        
 
@@ -87,7 +91,7 @@ namespace WebApiService
                 c.IncludeXmlComments(xmlPath);
             });
 
-            
+
 
         }
 
