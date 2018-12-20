@@ -18,7 +18,7 @@ namespace WebApiService.Controllers
             _hub = hub;
             _repository = repository;
         }
-
+        [HttpGet]
         public IActionResult Get()
         {
             var timerManager = new TimerManager(() => _hub.Clients.All.SendAsync("receivechartdata", _repository.GetData()));
