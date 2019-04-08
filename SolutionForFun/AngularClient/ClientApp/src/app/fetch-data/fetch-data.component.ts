@@ -55,5 +55,25 @@ export class FetchDataComponent implements OnDestroy, OnInit {
   //  return body.data || {};
 
   //}
+
+  exportToCSharp():void {
+    (async () => {
+
+        //await CefSharp.BindObjectAsync("boundAsync");
+
+        //alert(await boundAsync.hello());
+
+        //let result = await boundAsync.multiply(7, 3);
+        //alert(result);
+
+        //let json = JSON.stringify(this.forecasts)
+        //result = await boundAsync.jsonReceiver(json);
+        //if (1)
+        //  alert("Success");
+        //else
+        //  alert("Fail");      
+     
+    })();
+  }
 }
 

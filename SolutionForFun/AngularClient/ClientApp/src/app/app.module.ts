@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
+//import { NgbModule, NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { ChartsModule } from 'ng2-charts';
 
@@ -20,11 +21,13 @@ import { SignalRComponent } from './signalr-client/signalr-client.component';
 
 import { DataTablesModule } from 'angular-datatables';
 
-//import { AngularCRUDComponent } from './employee/employee-list.component';
-//import { EmployeeAddComponent } from './employee/employee-add.component';
-//import { EmployeeUpdateComponent } from './employee/employee-update.component';
+import { CRUDComponent } from './employee/employee-list.component';
+import { EmployeeAddComponent } from './employee-add/employee-add.component';
+import { EmployeeUpdateComponent } from './employee-update/employee-update.component';
+
 import { EmployeeDataService } from './services/employeedata.service'
 
+import { NgbdModalBasicModule } from './modal-component/modal-component.module';
 
 
 @NgModule({
@@ -33,14 +36,15 @@ import { EmployeeDataService } from './services/employeedata.service'
     NavMenuComponent,
     HomeComponent,
     FetchDataComponent,
-    SignalRComponent//,
-    //AngularCRUDComponent,
-    //EmployeeAddComponent,
-    //EmployeeUpdateComponent
+    SignalRComponent,
+    CRUDComponent,
+    EmployeeAddComponent,
+    EmployeeUpdateComponent    
   ],
   imports: [
     BrowserModule,//.withServerTransition({ appId: 'ng-cli-universal' }),   
     NgbModule,
+    NgbdModalBasicModule,    
     AngularFontAwesomeModule,
     ChartsModule,
     HttpClientModule,
@@ -52,7 +56,7 @@ import { EmployeeDataService } from './services/employeedata.service'
       { path: 'home', component: HomeComponent, pathMatch: 'full' },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'signalR', component: SignalRComponent },   
-    //  { path: 'crud', component: AngularCRUDComponent },
+      { path: 'crud', component: CRUDComponent },
     ])
   ],
   providers: [EmployeeDataService],

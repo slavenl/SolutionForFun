@@ -12,13 +12,14 @@ export class EmployeeUpdateComponent implements OnInit {
   constructor(private dataservice: EmployeeDataService, private route: Router) {
 
   }
+
   @Output() nameEvent = new EventEmitter<string>();
   @ViewChild('closeBtn') cb: ElementRef;
   ngOnInit() {
   }
 
   @Input() reset: boolean = false;
-  @ViewChild('regForm') myForm: NgForm;
+  @ViewChild('editform') myForm: NgForm;
   @Input() isReset: boolean = false;
   objtempemp: Employee;
   @Input() objemp: Employee = new Employee();

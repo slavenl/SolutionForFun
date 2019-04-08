@@ -29,22 +29,22 @@ export class EmployeeDataService {
   ///  
   EditEmployee(emp: Employee) {
     console.log(emp);
-    const params = new HttpParams().set('ID', emp.id);
+    const params = new HttpParams().set('ID', emp.employeeid);
     const headers = new HttpHeaders().set('content-type', 'application/json');
     var body = {
-      Fname: emp.firstname, Lname: emp.lastname, Email: emp.email, ID: emp.id
+      Fname: emp.firstname, Lname: emp.lastname, Email: emp.email, ID: emp.employeeid
       , gender: emp.gender
     }
-    return this.http.put<Employee>(ROOT_URL + 'Employees/' + emp.id, body, { headers, params })
+    return this.http.put<Employee>(ROOT_URL + 'Employees/' + emp.employeeid, body, { headers, params })
 
   }
   DeleteEmployee(emp: Employee) {
-    const params = new HttpParams().set('ID', emp.id);
+    const params = new HttpParams().set('ID', emp.employeeid);
     const headers = new HttpHeaders().set('content-type', 'application/json');
     var body = {
-      Fname: emp.firstname, Lname: emp.lastname, Email: emp.email, ID: emp.id
+      Fname: emp.firstname, Lname: emp.lastname, Email: emp.email, ID: emp.employeeid
     }
-    return this.http.delete<Employee>(ROOT_URL + '/Employees/' + emp.id)
+    return this.http.delete<Employee>(ROOT_URL + '/Employees/' + emp.employeeid)
 
   }
 

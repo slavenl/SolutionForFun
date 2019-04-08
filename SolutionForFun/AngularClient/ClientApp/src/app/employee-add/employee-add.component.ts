@@ -5,9 +5,10 @@ import { Router } from '@angular/router';
 import { Employee } from '../models/employeemodel';
 
 import { EmployeeDataService } from '../services/employeedata.service'
+
 @Component({
   selector: 'app-employee-add',
-  templateUrl: './employee-add.component.html'
+  templateUrl: './employee-add.component.html'  
 
 })
 export class EmployeeAddComponent implements OnInit {
@@ -17,6 +18,7 @@ export class EmployeeAddComponent implements OnInit {
   objtempemp: Employee;
   @Input() objemp: Employee = new Employee();;
   @ViewChild('closeBtn') cb: ElementRef;
+
   constructor(private dataservice: EmployeeDataService, private route: Router) {
 
   }
@@ -25,13 +27,8 @@ export class EmployeeAddComponent implements OnInit {
     // this.ResetValues();
   }
 
-  ResetValues() {
-
-
+  ResetValues() {    
   }
-
-
-
 
   Register(regForm: NgForm) {
 

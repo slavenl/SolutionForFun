@@ -53,7 +53,7 @@ namespace WebApiService
 
             //Custom services        
 
-            services.AddSingleton<IHostedService, DataProcessorService>();
+          //  services.AddSingleton<IHostedService, DataProcessorService>();
 
             //MVC
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
