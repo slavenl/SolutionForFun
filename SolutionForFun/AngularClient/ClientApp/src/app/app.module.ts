@@ -14,20 +14,21 @@ import { RouterModule } from '@angular/router';
 //import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
+import { DataTablesModule } from 'angular-datatables';
+
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { SignalRComponent } from './signalr-client/signalr-client.component';
 
-import { DataTablesModule } from 'angular-datatables';
-
 import { CRUDComponent } from './employee/employee-list.component';
-import { EmployeeAddComponent } from './employee-add/employee-add.component';
-import { EmployeeUpdateComponent } from './employee-update/employee-update.component';
+//import { EmployeeAddComponent } from './employee-add/employee-add.component';
+//import { EmployeeUpdateComponent } from './employee-update/employee-update.component';
+import { NgbdModalContentModule } from './modal-component/modal-component.module';
 
 import { EmployeeDataService } from './services/employeedata.service'
 
-import { NgbdModalBasicModule } from './modal-component/modal-component.module';
+
 
 
 @NgModule({
@@ -37,14 +38,14 @@ import { NgbdModalBasicModule } from './modal-component/modal-component.module';
     HomeComponent,
     FetchDataComponent,
     SignalRComponent,
-    CRUDComponent,
-    EmployeeAddComponent,
-    EmployeeUpdateComponent    
+    CRUDComponent//,
+    //EmployeeAddComponent,
+    //EmployeeUpdateComponent    
   ],
   imports: [
     BrowserModule,//.withServerTransition({ appId: 'ng-cli-universal' }),   
     NgbModule,
-    NgbdModalBasicModule,    
+    NgbdModalContentModule,    
     AngularFontAwesomeModule,
     ChartsModule,
     HttpClientModule,
@@ -52,15 +53,19 @@ import { NgbdModalBasicModule } from './modal-component/modal-component.module';
     FormsModule,
     DataTablesModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent },
-      { path: 'home', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'home', component: HomeComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'signalR', component: SignalRComponent },   
       { path: 'crud', component: CRUDComponent },
     ])
   ],
-  providers: [EmployeeDataService],
-  bootstrap: [AppComponent]
+  providers: [
+    EmployeeDataService
+  ],
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule { }
 

@@ -16,7 +16,7 @@ export class EmployeeAddComponent implements OnInit {
   @Input() cleardata: boolean = false;
   @Output() nameEvent = new EventEmitter<string>();
   objtempemp: Employee;
-  @Input() objemp: Employee = new Employee();;
+  @Input() objemp: Employee = new Employee();
   @ViewChild('closeBtn') cb: ElementRef;
 
   constructor(private dataservice: EmployeeDataService, private route: Router) {

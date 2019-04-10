@@ -1,7 +1,7 @@
 //import { NgModule, Component } from '@angular/core';
 //import { Routes, RouterModule } from '@angular/router';
 
-//import { AngularCRUDComponent } from './employee/employee-list.component';
+//import { CRUDComponent } from './employee/employee-list.component';
 //import { EmployeeUpdateComponent } from './employee/employee-update.component';
 //import { EmployeeAddComponent } from './employee/employee-add.component';
 

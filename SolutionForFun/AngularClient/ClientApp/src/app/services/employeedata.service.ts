@@ -14,11 +14,12 @@ export class EmployeeDataService {
   getEmployee() {
     return this.http.get<Employee[]>(ROOT_URL + 'Employees');
   }
+
   AddEmployee(emp: Employee) {
 
     const headers = new HttpHeaders().set('content-type', 'application/json');
     var body = {
-      Fname: emp.firstname, Lname: emp.lastname, Email: emp.email, gender: emp.gender
+      FirstName: emp.firstname, LastName: emp.lastname, "EmployeeData": { Gender: emp.gender, Email: emp.email }
     }
     console.log(ROOT_URL);
 
@@ -32,8 +33,7 @@ export class EmployeeDataService {
     const params = new HttpParams().set('ID', emp.employeeid);
     const headers = new HttpHeaders().set('content-type', 'application/json');
     var body = {
-      Fname: emp.firstname, Lname: emp.lastname, Email: emp.email, ID: emp.employeeid
-      , gender: emp.gender
+      FirstName: emp.firstname, LastName: emp.lastname, EmployeeId: emp.employeeid, "EmployeeData": { Gender: emp.gender, Email: emp.email }
     }
     return this.http.put<Employee>(ROOT_URL + 'Employees/' + emp.employeeid, body, { headers, params })
 

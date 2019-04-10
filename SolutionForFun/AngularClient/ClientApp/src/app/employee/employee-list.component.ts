@@ -6,8 +6,6 @@ import { EmployeeDataService } from '../services/employeedata.service'
 import { EmployeeAddComponent } from '../employee-add/employee-add.component';
 import { EmployeeUpdateComponent } from '../employee-update/employee-update.component';
 
-import { NgbdModalBasicModule } from '../modal-component/modal-component.module'; //modal
-
 @Component({
   selector: 'app-angular-crud',
   templateUrl: './employee-list.component.html',
@@ -65,7 +63,8 @@ export class CRUDComponent implements OnInit {
     this.addcomponent.objemp.lastname = "";
     this.addcomponent.objemp.employeeid = "";
     this.addcomponent.objemp.gender = 0;
-    console.log(this.addcomponent.objemp.gender);    
+    console.log(this.addcomponent.objemp.gender);
+    
   }
 
   loadnewform(employeeid: string, email: string, firstname: string, lastname: string, gender: number) {
