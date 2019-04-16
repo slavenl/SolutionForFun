@@ -9,6 +9,7 @@
     <None Remove="ClientApp\src\app\employee\employee-Add.component.ts" />
     <None Remove="ClientApp\src\app\home\home.component.ts" />
     <None Remove="ClientApp\src\app\nav-menu\nav-menu.component.ts" />
+    <None Remove="ClientApp\src\app\sidebar-menu\sidebar-menu.component.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +30,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\employee-add\employee-add.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\home\home.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\nav-menu\nav-menu.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\sidebar-menu\sidebar-menu.component.ts" />
   </ItemGroup>
   <!--<ItemGroup>
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.2" />

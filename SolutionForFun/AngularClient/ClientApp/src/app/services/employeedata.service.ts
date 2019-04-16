@@ -15,7 +15,7 @@ export class EmployeeDataService {
     return this.http.get<Employee[]>(ROOT_URL + 'Employees');
   }
 
-  AddEmployee(emp: Employee) {
+  addEmployee(emp: Employee) {
 
     const headers = new HttpHeaders().set('content-type', 'application/json');
     var body = {
@@ -26,9 +26,8 @@ export class EmployeeDataService {
     return this.http.post<Employee>(ROOT_URL + '/Employees', body, { headers });
 
   }
-
-  ///  
-  EditEmployee(emp: Employee) {
+    
+  editEmployee(emp: Employee) {
     console.log(emp);
     const params = new HttpParams().set('ID', emp.employeeid);
     const headers = new HttpHeaders().set('content-type', 'application/json');
@@ -38,7 +37,8 @@ export class EmployeeDataService {
     return this.http.put<Employee>(ROOT_URL + 'Employees/' + emp.employeeid, body, { headers, params })
 
   }
-  DeleteEmployee(emp: Employee) {
+
+  deleteEmployee(emp: Employee) {
     const params = new HttpParams().set('ID', emp.employeeid);
     const headers = new HttpHeaders().set('content-type', 'application/json');
     var body = {

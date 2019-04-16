@@ -26,7 +26,7 @@ export class EmployeeUpdateComponent implements OnInit {
 
   EditEmployee(regForm: NgForm) {
 
-    this.dataservice.EditEmployee(this.objemp).subscribe(res => {
+    this.dataservice.editEmployee(this.objemp).subscribe(res => {
       alert("Employee updated successfully");
       this.nameEvent.emit("ccc");
       this.cb.nativeElement.click();

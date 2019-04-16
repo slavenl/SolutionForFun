@@ -38,7 +38,7 @@ export class EmployeeAddComponent implements OnInit {
     this.objtempemp.lastname = regForm.value.lastname;
     this.objtempemp.gender = regForm.value.gender;
 
-    this.dataservice.AddEmployee(this.objtempemp).subscribe(res => {
+    this.dataservice.addEmployee(this.objtempemp).subscribe(res => {
       alert("Employee Added successfully");
       this.TakeHome();
     }

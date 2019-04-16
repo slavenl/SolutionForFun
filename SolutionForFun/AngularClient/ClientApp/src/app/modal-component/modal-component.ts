@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
-
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-//import { NgForm } from '@angular/forms';
+
 
 @Component({
   selector: 'ngbd-modal-content-Add',

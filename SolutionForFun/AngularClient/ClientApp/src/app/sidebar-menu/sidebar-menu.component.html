@@ -1,0 +1,45 @@
+<ng-sidebar-container (onBackdropClicked)="_onBackdropClicked()" style="height:100vh;">
+
+  <ng-sidebar [(opened)]="_opened"
+              [mode]="_MODES[_modeNum]"
+              [keyClose]="_keyClose"
+              [position]="_POSITIONS[_positionNum]"
+              [dock]="_dock"
+              [dockedSize]="'50px'"
+              [autoCollapseHeight]="_autoCollapseHeight"
+              [autoCollapseWidth]="_autoCollapseWidth"
+              [closeOnClickOutside]="_closeOnClickOutside"
+              [closeOnClickBackdrop]="_closeOnClickBackdrop"
+              [showBackdrop]="_showBackdrop"
+              [animate]="_animate"
+              [trapFocus]="_trapFocus"
+              [autoFocus]="_autoFocus"
+              [ariaLabel]="'My sidebar'"
+              (onOpenStart)="_onOpenStart()"
+              (onOpened)="_onOpened()"
+              (onCloseStart)="_onCloseStart()"
+              (onClosed)="_onClosed()"
+              (onTransitionEnd)="_onTransitionEnd()">
+
+    <hr>
+    <ul *ngFor="let menuItem of menuItems">
+      <li><a href="{{menuItem.url}}"> {{menuItem.text}}</a></li>
+    </ul>
+
+    <!--<button class="btn btn-primary" (click)="_toggleOpened()">Close sidebar</button>
+    <p><a closeSidebar>This will close the sidebar too</a></p>-->
+
+  </ng-sidebar>
+
+  <div ng-sidebar-content>
+    <header class="sidebar_header">
+      <button (click)="_toggleOpened()" class="sidebar_header__toggle" title="Toggle sidebar"></button>
+      <span></span>
+    </header>
+    <section class="demo-contents">
+      <div class="container">
+        <router-outlet></router-outlet>
+      </div>
+    </section>
+  </div>
+</ng-sidebar-container>

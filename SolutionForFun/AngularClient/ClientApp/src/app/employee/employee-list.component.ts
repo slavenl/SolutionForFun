@@ -47,7 +47,7 @@ export class CRUDComponent implements OnInit {
     if (confirm("Are you sure you want to delete this ?")) {
       this.tempemp = new Employee();
       this.tempemp.employeeid = id;
-      this.dataservice.DeleteEmployee(this.tempemp).subscribe(res => {
+      this.dataservice.deleteEmployee(this.tempemp).subscribe(res => {
         alert("Deleted successfully !!!");
         this.LoadData();
       })
