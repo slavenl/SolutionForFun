@@ -1,7 +1,13 @@
 export class Employee {
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;  
+  employeeId: string;
+  employeeData: EmployeeData
+}  
+
+
+export class EmployeeData {  
   email: string;
   gender: number;
-  employeeid: string
+  phone: string;
 }  

@@ -2,54 +2,56 @@ import { Component, OnInit, Input, ViewChild, ElementRef, EventEmitter, Output }
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Employee } from '../models/employeemodel';
+import { Employee, EmployeeData } from '../models/employeemodel';
 
 import { EmployeeDataService } from '../services/employeedata.service'
 
 @Component({
   selector: 'app-employee-add',
-  templateUrl: './employee-add.component.html'  
-
+  templateUrl: './employee-add.component.html'
 })
+
 export class EmployeeAddComponent implements OnInit {
 
   @Input() cleardata: boolean = false;
-  @Output() nameEvent = new EventEmitter<string>();
-  objtempemp: Employee;
   @Input() objemp: Employee = new Employee();
+  @Output() resultFromComp = new EventEmitter<string>();
+  objtempemp: Employee;
+
   @ViewChild('closeBtn') cb: ElementRef;
 
-  constructor(private dataservice: EmployeeDataService, private route: Router) {
-
+  constructor(private dataservice: EmployeeDataService, private route: Router) {    
   }
 
   ngOnInit() {
-    // this.ResetValues();
+    this.ResetValues();
   }
 
-  ResetValues() {    
+  ResetValues() {
+    this.objemp = new Employee();
+    this.objemp.employeeData = new EmployeeData();
   }
 
   Register(regForm: NgForm) {
 
     this.objtempemp = new Employee();
-    this.objtempemp.email = regForm.value.email;
-    this.objtempemp.firstname = regForm.value.firstname;
-    this.objtempemp.lastname = regForm.value.lastname;
-    this.objtempemp.gender = regForm.value.gender;
+    this.objtempemp.firstName = regForm.value.firstName;
+    this.objtempemp.lastName = regForm.value.lastName;
+
+    this.objtempemp.employeeData = new EmployeeData();
+    this.objtempemp.employeeData.gender = regForm.value.gender;
+    this.objtempemp.employeeData.email = regForm.value.email;
+    this.objtempemp.employeeData.phone = regForm.value.phone;
 
     this.dataservice.addEmployee(this.objtempemp).subscribe(res => {
-      alert("Employee Added successfully");
-      this.TakeHome();
-    }
-    )
-
-
+      this.HandleResponse();
+    })
   }
-  TakeHome() {
-    this.nameEvent.emit("ccc");
-    this.cb.nativeElement.click();
-    this.route.navigateByUrl('');
+
+  HandleResponse() {
+    alert("Employee Added successfully");
+    this.resultFromComp.emit("result from add modal component");
+   
   }
 
 }

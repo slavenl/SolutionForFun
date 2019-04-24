@@ -22,62 +22,64 @@ export class CRUDComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.LoadData();
+    this.LoadInitialData();
   }
 
-  LoadData() {
+  LoadInitialData() {
     this.dataservice.getEmployee().subscribe((tempdate) => {
       this.emplist = tempdate;
       console.log(this.emplist);
       if (this.emplist.length > 0) {
-        this.dataavailable = true; 
+        this.dataavailable = true;
       }
       else {
         this.dataavailable = false;
       }
-    }
-    )
+    })
       , err => {
         console.log(err);
       }
   }
 
-  deleteconfirmation(id: string) {
+  DeleteConfirmation(id: string) {
 
     if (confirm("Are you sure you want to delete this ?")) {
       this.tempemp = new Employee();
-      this.tempemp.employeeid = id;
+      this.tempemp.employeeId = id;
       this.dataservice.deleteEmployee(this.tempemp).subscribe(res => {
         alert("Deleted successfully !!!");
-        this.LoadData();
+        this.LoadInitialData();
       })
     }
   }
 
-  @ViewChild('empadd') addcomponent: EmployeeAddComponent
-  @ViewChild('editform') editcomponent: EmployeeUpdateComponent
+  @ViewChild('addEmployeeForm') addcomponent: EmployeeAddComponent
+  @ViewChild('editEmployeeForm') editcomponent: EmployeeUpdateComponent
 
-  loadaddnew() {  
-    this.addcomponent.objemp.email = "";
-    this.addcomponent.objemp.firstname = "";
-    this.addcomponent.objemp.lastname = "";
-    this.addcomponent.objemp.employeeid = "";
-    this.addcomponent.objemp.gender = 0;
-    console.log(this.addcomponent.objemp.gender);
-    
-  }
+  ////loadaddnew() {  
 
-  loadnewform(employeeid: string, email: string, firstname: string, lastname: string, gender: number) {
-    console.log(gender);
-    this.editcomponent.objemp.email = email;
-    this.editcomponent.objemp.firstname = firstname;
-    this.editcomponent.objemp.lastname = lastname;
-    this.editcomponent.objemp.employeeid = employeeid;
-    this.editcomponent.objemp.gender = gender;
-    console.log(this.addcomponent.objemp.gender);    
-  }
+  ////  this.addcomponent.objemp.firstName = "";
+  ////  this.addcomponent.objemp.lastName = "";
+  ////  this.addcomponent.objemp.employeeId = "";
+  ////  //this.addcomponent.objemp.email = "";
+  ////  //this.addcomponent.objemp.gender = 0;
+  ////  //console.log(this.addcomponent.objemp.gender);
 
-  refreshdata() {
-    this.LoadData();
+  ////}
+
+  //loadnewform(employeeid: string, email: string, firstname: string, lastname: string, gender: number) {
+  //  console.log(gender);
+
+  //  this.editcomponent.objemp.firstName = firstname;
+  //  this.editcomponent.objemp.lastName = lastname;
+  //  this.editcomponent.objemp.employeeId = employeeid;
+  //  //this.editcomponent.objemp.email = email;
+  //  //this.editcomponent.objemp.gender = gender;
+  //  //console.log(this.editcomponent.objemp.gender);    
+  //}
+
+  RefreshData(event) {
+    console.log(event);
+    this.LoadInitialData();
   }
 } 

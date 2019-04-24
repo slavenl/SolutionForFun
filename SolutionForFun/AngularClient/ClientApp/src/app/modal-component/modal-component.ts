@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EmployeeDataService } from '../services/employeedata.service'
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,10 +14,10 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
       </button>
     </div>
     <div class="modal-body">      
-      <app-employee-add #empadd (nameEvent)="refreshdata($event)"></app-employee-add>
+      <app-employee-add #addEmployeeForm (resultFromComp)="RefreshDataTriggeredByComponent($event)"></app-employee-add>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+      <button type="button" class="btn btn-outline-dark" name="closeBtn" id="closeBtn" #closeBtn (click)="activeModal.close('Close click') ">Close</button>
     </div>
   `
 })
@@ -23,7 +25,15 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class NgbdModalContentAdd {
   @Input() name;
 
-  constructor(public activeModal: NgbActiveModal) { }
+  @ViewChild('closeBtn') cb: ElementRef;
+
+  constructor(public activeModal: NgbActiveModal, private router: Router) {
+  }
+  RefreshDataTriggeredByComponent(message: string) {
+    console.log("tu sam - " + event);
+    this.cb.nativeElement.click();
+    this.router.navigateByUrl('/crud/path?refresh=1');
+  }
 }
 
 @Component({
@@ -36,18 +46,27 @@ export class NgbdModalContentAdd {
       </button>
     </div>
     <div class="modal-body">      
-      <app-employee-update #editform (nameEvent)="refreshdata($event)" [isReset]="resetForm"></app-employee-update>
+      <app-employee-update #editEmployeeForm (resultFromComp)="RefreshDataTriggeredByComponent($event)" [isReset]="resetForm" [employeeId]="employeeId"></app-employee-update>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+      <button type="button" class="btn btn-outline-dark" name="closeBtn" id="closeBtn" #closeBtn (click)="activeModal.close('Close click') ">Close</button>
     </div>
   `
 })
 
 export class NgbdModalContentUpdate {
-  @Input() name;
+  @Input() employeeId;
 
-  constructor(public activeModal: NgbActiveModal) { }
+  @ViewChild('closeBtn') cb: ElementRef;
+
+  constructor(public activeModal: NgbActiveModal, private router: Router) {
+
+  }
+  RefreshDataTriggeredByComponent(message: string) {
+    console.log("tu sam - " + event);
+    this.cb.nativeElement.click();
+    this.router.navigateByUrl('/crud/path?refresh=1');
+  }
 }
 
 
@@ -58,23 +77,25 @@ export class NgbdModalContentUpdate {
 })
 
 export class NgbdModalComponent {
-  @Input() id;  
+  @Input() id;
+  @Output() resultFromComp = new EventEmitter<string>();
 
-  constructor(private modalService: NgbModal) {    
+  constructor(private modalService: NgbModal) {
 
   }
 
-  open() {
-
+  OpenModalDialog() {
     switch (this.id) {
       case 0:
         this.modalService.open(NgbdModalContentAdd);
         //modalRef.componentInstance.name = 'Add';
         break;
       default:
-        this.modalService.open(NgbdModalContentUpdate).componentInstance.name = this.id;
-        //modalRef.componentInstance.name = 'Update  ';const modalRef = 
+        this.modalService.open(NgbdModalContentUpdate).componentInstance.employeeId = this.id;
         break;
     }
   }
+
+
+
 }

@@ -1,8 +1,9 @@
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Employee } from '../models/employeemodel'
+import { Employee, EmployeeData } from '../models/employeemodel'
 import { ROOT_URL } from '../models/configmodel'
 import { Observable } from 'rxjs';
+
 @Injectable()
 export class EmployeeDataService {
   employees: Observable<Employee[]>;
@@ -15,36 +16,52 @@ export class EmployeeDataService {
     return this.http.get<Employee[]>(ROOT_URL + 'Employees');
   }
 
+  getEmployeeById(employeeid: string) {
+    const params = new HttpParams().set('ID', employeeid);
+    const headers = new HttpHeaders().set('content-type', 'application/json');
+    var body = {
+      ID: employeeid
+    }
+    return this.http.get<Employee>(ROOT_URL + '/Employees/' + employeeid)
+
+  }
+
   addEmployee(emp: Employee) {
 
     const headers = new HttpHeaders().set('content-type', 'application/json');
     var body = {
-      FirstName: emp.firstname, LastName: emp.lastname, "EmployeeData": { Gender: emp.gender, Email: emp.email }
+      FirstName: emp.firstName,
+      LastName: emp.lastName,
+      "EmployeeData": { Gender: emp.employeeData.gender, Email: emp.employeeData.email, Phone: emp.employeeData.phone }
     }
     console.log(ROOT_URL);
 
     return this.http.post<Employee>(ROOT_URL + '/Employees', body, { headers });
 
   }
-    
+
   editEmployee(emp: Employee) {
     console.log(emp);
-    const params = new HttpParams().set('ID', emp.employeeid);
+    const params = new HttpParams().set('ID', emp.employeeId);
     const headers = new HttpHeaders().set('content-type', 'application/json');
     var body = {
-      FirstName: emp.firstname, LastName: emp.lastname, EmployeeId: emp.employeeid, "EmployeeData": { Gender: emp.gender, Email: emp.email }
+      FirstName: emp.firstName,
+      LastName: emp.lastName,
+      EmployeeId: emp.employeeId,
+      "EmployeeData": { Gender: emp.employeeData.gender, Email: emp.employeeData.email, Phone: emp.employeeData.phone }
     }
-    return this.http.put<Employee>(ROOT_URL + 'Employees/' + emp.employeeid, body, { headers, params })
+    return this.http.put<Employee>(ROOT_URL + 'Employees/' + emp.employeeId, body, { headers, params })
 
   }
 
   deleteEmployee(emp: Employee) {
-    const params = new HttpParams().set('ID', emp.employeeid);
+    const params = new HttpParams().set('ID', emp.employeeId);
     const headers = new HttpHeaders().set('content-type', 'application/json');
     var body = {
-      Fname: emp.firstname, Lname: emp.lastname, Email: emp.email, ID: emp.employeeid
+      FirstName: emp.firstName, LastName: emp.lastName//,
+      //Email: emp.email, ID: emp.employeeId
     }
-    return this.http.delete<Employee>(ROOT_URL + '/Employees/' + emp.employeeid)
+    return this.http.delete<Employee>(ROOT_URL + '/Employees/' + emp.employeeId)
 
   }
 

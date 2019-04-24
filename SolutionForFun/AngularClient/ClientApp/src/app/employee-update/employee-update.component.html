@@ -1,43 +1,61 @@
 <div class="container" style="border:thin">
 
-  <form #editform="ngForm" name="editform" (ngSubmit)="EditEmployee(editform)" class="form-horizontal" style="width:50%">
+  <form #editEmployeeForm="ngForm" name="editEmployeeForm" (ngSubmit)="EditEmployee(editEmployeeForm)" class="form-horizontal" style="width:50%">
 
     <div class="form-group">
-      <label class="control-label col-sm-2" for="fname">First Name:</label>
+      <label class="control-label col-sm" for="employeeId">Employee Id:</label>
       <div class="col-sm-10">
-        <input style="width:50%" required type="text" class="form-control"
-               id="firstname" placeholder="Enter first name"
-               name="firstname" [(ngModel)]='objemp.firstname' #firstname="ngModel">
-        <span class="help-bpx" *ngIf="firstname.touched && !firstname.valid ">Required</span>
+        <input style="" type="text" class="form-control"
+               id="employeeId" readonly
+               name="employeeId" [(ngModel)]='objemp.employeeId' #employeeId="ngModel">
+
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label col-sm-2" for="email">Last Name:</label>
+      <label class="control-label col-sm" for="firstName">First Name:</label>
       <div class="col-sm-10">
-        <input style="width:50%" required type="text" class="form-control"
-               id="lastname" placeholder="Enter Last Name"
-               name="lastname" lastname [(ngModel)]='objemp.lastname' #lastname="ngModel">
-        <span class="help-bpx" *ngIf="lastname.touched && !lastname.valid ">Required</span>
+        <input style="" required type="text" class="form-control"
+               id="firstName" placeholder="Enter first name"
+               name="firstName" [(ngModel)]='objemp.firstName' #firstName="ngModel">
+        <span class="help-bpx" *ngIf="firstName.touched && !firstName.valid" style="color:red">Required</span>
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label col-sm-2" for="Gender">Gender:</label>
+      <label class="control-label col-sm" for="lastName">Last Name:</label>
       <div class="col-sm-10">
-        <select name="gender" required [(ngModel)]='objemp.gender' #gender="ngModel">
+        <input style="" required type="text" class="form-control"
+               id="lastName" placeholder="Enter Last Name"
+               name="lastName" [(ngModel)]='objemp.lastName' #lastName="ngModel">
+        <span class="help-bpx" *ngIf="lastName.touched && !lastName.valid" style="color:red">Required</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm" for="Gender">Gender:</label>
+      <div class="col-sm-10">
+        <select name="gender" required [(ngModel)]='objemp.employeeData.gender' #gender="ngModel">
           <option value="0" selected disabled>Please Select</option>
           <option value="1">Male</option>
           <option value="2">Female</option>
-          <!--<span class="help-bpx" *ngIf="gender.touched && !gender.valid ">required</span>-->
         </select>
+        <span class="help-bpx" *ngIf="gender.touched && !gender.valid" style="color:red">Required</span>
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label col-sm-2" for="email">Email:</label>
+      <label class="control-label col-sm" for="email">Email:</label>
       <div class="col-sm-10">
-        <input style="width:50%" type="email"  class="form-control" 
+        <input style="" type="email" class="form-control"
                id="email" placeholder="Enter email"
-               name="email" [(ngModel)]='objemp.email' #email="ngModel">
-        <span class="help-bpx" *ngIf="email.touched && !email.valid ">**</span>
+               name="email" [(ngModel)]='objemp.employeeData.email' #email="ngModel">
+        <span class="help-bpx" *ngIf="email.touched && !email.valid" style="color:red">**</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm" for="email">Phone:</label>
+      <div class="col-sm-10">
+        <input style="" type="text" class="form-control"
+               id="phone" placeholder="Enter phone"
+               name="phone" [(ngModel)]='objemp.employeeData.phone' #phone="ngModel">
+        <span class="help-bpx" *ngIf="phone.touched && !phone.valid" style="color:red">**</span>
       </div>
     </div>
     <div class="form-group">
@@ -47,4 +65,4 @@
     </div>
   </form>
 </div>
-<button style="display:none" type="button" #closeBtn class="btn btn-default" data-dismiss="modal">Close</button> 
+<!--<button style="display:none" type="button" #closeBtn class="btn btn-default" data-dismiss="modal">Close</button>-->

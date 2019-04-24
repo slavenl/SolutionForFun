@@ -13,9 +13,11 @@ export class SidebarMenuComponent {
 
   constructor() {
     this.menuItems = [
-      new MenuItem(1, "Menu 1", "http://www.google.com"),
-      new MenuItem(2, "Menu 2", "http://www.bing.com"),
-      new MenuItem(3, "Menu 3", "http://www.yahoo.com")
+      new MenuItem(1, "Home", "/home"),
+      new MenuItem(2, "Service", "/fetch-data"),
+      new MenuItem(3, "SignalR", "/signalR"),
+      new MenuItem(4, "CRUD", "/crud"),
+      new MenuItem(5, "OpenAPI", "http://localhost:5000/swagger")
     ]
   }
     

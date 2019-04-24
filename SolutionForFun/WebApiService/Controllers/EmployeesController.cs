@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -59,7 +60,7 @@ namespace WebApiService.Controllers
             return Ok(employee);
         }
 
-        // PUT: api/Employees/5
+        // PUT: api/Employees/5  //update
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEmployee([FromRoute] int id, [FromBody] Employee employee)
         {
@@ -74,7 +75,11 @@ namespace WebApiService.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(employee).State = EntityState.Modified;
+            var existing = _context.Employees.Find(id);
+
+            _context.Entry(existing).CurrentValues.SetValues(employee);
+
+            //_context.Entry(employee).State = EntityState.Modified;
 
             try
             {
@@ -95,7 +100,7 @@ namespace WebApiService.Controllers
             return NoContent();
         }
 
-        // POST: api/Employees
+        // POST: api/Employees //insert
         [HttpPost]
         public async Task<IActionResult> PostEmployee([FromBody] Employee employee)
         {
@@ -106,15 +111,17 @@ namespace WebApiService.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Employees.Add(employee);
+            try
+            {
+                _context.Employees.Add(employee);
 
-            await _context.SaveChangesAsync();
-
-            _context.EmployeesData.Add(employee.EmployeeData);            
-
-            await _context.SaveChangesAsync();
-
-
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error occured: {ex.InnerException}", ex);
+                throw;
+            }
 
             return CreatedAtAction("GetEmployee", new { id = employee.EmployeeId }, employee);
         }
@@ -130,6 +137,7 @@ namespace WebApiService.Controllers
             }
 
             var employee = await _context.Employees.FindAsync(id);
+
             if (employee == null)
             {
                 return NotFound();
