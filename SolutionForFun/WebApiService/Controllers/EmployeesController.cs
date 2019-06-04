@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Serilog;
 using WebApiService.Contracts.Models;
 using WebApiService.Infrastructure;
 
@@ -48,7 +48,7 @@ namespace WebApiService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var employee = _context.Employees.Include(a => a.EmployeeData).Where(x => x.EmployeeId == id).First();
+            Employee employee = _context.Employees.Include(a => a.EmployeeData).Where(x => x.EmployeeId == id).First();
 
             await Task.CompletedTask;
 
@@ -75,7 +75,7 @@ namespace WebApiService.Controllers
                 return BadRequest();
             }
 
-            var existing = _context.Employees.Find(id);
+            Employee existing = _context.Employees.Find(id);
 
             _context.Entry(existing).CurrentValues.SetValues(employee);
 
@@ -85,7 +85,7 @@ namespace WebApiService.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException)
             {
                 if (!EmployeeExists(id))
                 {
@@ -136,7 +136,7 @@ namespace WebApiService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var employee = await _context.Employees.FindAsync(id);
+            Employee employee = await _context.Employees.FindAsync(id);
 
             if (employee == null)
             {

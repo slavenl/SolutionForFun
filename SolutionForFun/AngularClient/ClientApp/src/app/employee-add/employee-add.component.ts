@@ -18,7 +18,7 @@ export class EmployeeAddComponent implements OnInit {
   @Output() resultFromComp = new EventEmitter<string>();
   objtempemp: Employee;
 
-  @ViewChild('closeBtn') cb: ElementRef;
+  @ViewChild('closeBtn', { static: false }) cb: ElementRef;
 
   constructor(private dataservice: EmployeeDataService, private route: Router) {    
   }

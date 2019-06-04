@@ -53,8 +53,8 @@ export class CRUDComponent implements OnInit {
     }
   }
 
-  @ViewChild('addEmployeeForm') addcomponent: EmployeeAddComponent
-  @ViewChild('editEmployeeForm') editcomponent: EmployeeUpdateComponent
+  @ViewChild('addEmployeeForm', { static: false }) addcomponent: EmployeeAddComponent
+  @ViewChild('editEmployeeForm', { static: false }) editcomponent: EmployeeUpdateComponent
 
   ////loadaddnew() {  
 

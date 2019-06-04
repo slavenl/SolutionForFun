@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using BetradarMatchIDService.Helper;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 //using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
+using System.IO;
+using System.Reflection;
 using WebApiService.Contracts.Interfaces;
 using WebApiService.HubConfig;
 using WebApiService.Infrastructure;
@@ -53,7 +52,7 @@ namespace WebApiService
 
             //Custom services        
 
-          //  services.AddSingleton<IHostedService, DataProcessorService>();
+            //  services.AddSingleton<IHostedService, DataProcessorService>();
 
             //MVC
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -86,8 +85,8 @@ namespace WebApiService
                 });
 
                 // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
 
@@ -108,7 +107,7 @@ namespace WebApiService
             }
 
             //Logging - Serilog
-            var logLocation = Configuration.GetSection("Logging").GetValue<string>("LogLocation");
+            string logLocation = Configuration.GetSection("Logging").GetValue<string>("LogLocation");
 
             Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug()

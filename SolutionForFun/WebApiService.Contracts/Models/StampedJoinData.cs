@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Models.BetRadarFeed;
+﻿using Models.BetRadarFeed;
+using System;
 
 namespace WebApiService.Contracts.Models
 {

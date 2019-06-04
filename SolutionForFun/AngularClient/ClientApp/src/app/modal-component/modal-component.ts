@@ -25,7 +25,7 @@ import { Router } from '@angular/router';
 export class NgbdModalContentAdd {
   @Input() name;
 
-  @ViewChild('closeBtn') cb: ElementRef;
+  @ViewChild('closeBtn', { static: true }) cb: ElementRef;
 
   constructor(public activeModal: NgbActiveModal, private router: Router) {
   }
@@ -57,7 +57,7 @@ export class NgbdModalContentAdd {
 export class NgbdModalContentUpdate {
   @Input() employeeId;
 
-  @ViewChild('closeBtn') cb: ElementRef;
+  @ViewChild('closeBtn', { static: true }) cb: ElementRef;
 
   constructor(public activeModal: NgbActiveModal, private router: Router) {
 

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Models.BetRadarFeed;
 using Serilog;
+using System;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using WebApiService.Contracts.Models;
 using WebApiService.Helpers;
 
@@ -22,7 +22,7 @@ namespace BetradarMatchIDService.Helper
 
         private readonly IMemoryCache _mc;
 
-        private ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
+        private readonly ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
 
 
         public DataProcessorService(IConfiguration configuration, IMemoryCache memoryCache)
@@ -31,28 +31,10 @@ namespace BetradarMatchIDService.Helper
             _mc = memoryCache;
         }
 
-        private string URL
-        {
-            get
-            {
-                return _config.GetSection("AppSettings").GetValue<string>("BetRadarH2HStats");
-            }
-        }
+        private string URL => _config.GetSection("AppSettings").GetValue<string>("BetRadarH2HStats");
 
-        private string CacheKey
-        {
-            get
-            {
-                return _config.GetSection("AppSettings").GetValue<string>("CacheKey");
-            }
-        }
-        private int PingInterval
-        {
-            get
-            {
-                return _config.GetSection("AppSettings").GetValue<int>("BetRadarPingIntervalInMin") * 60 * 1000;
-            }
-        }
+        private string CacheKey => _config.GetSection("AppSettings").GetValue<string>("CacheKey");
+        private int PingInterval => _config.GetSection("AppSettings").GetValue<int>("BetRadarPingIntervalInMin") * 60 * 1000;
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -78,21 +60,21 @@ namespace BetradarMatchIDService.Helper
         {
             cacheLock.EnterWriteLock();
 
-            using (var client = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
                 try
                 {
                     Log.Debug($"GetDataAndProcess for:{url} - started.");
 
-                    var response = client.GetAsync(url, HttpCompletionOption.ResponseContentRead).Result;
+                    HttpResponseMessage response = client.GetAsync(url, HttpCompletionOption.ResponseContentRead).Result;
                     response.EnsureSuccessStatusCode();
 
                     if (response.IsSuccessStatusCode)
                     {
-                        var content = response.Content.ReadAsStreamAsync().Result;
+                        System.IO.Stream content = response.Content.ReadAsStreamAsync().Result;
 
                         Log.Debug($"GetDataAndProcess - got {content.Length} bytes.");
-                        var resultList = XmlDeserializer<BetradarStatisticsMatchSourceJoinData>.DeserializeXmlData(content);
+                        BetradarStatisticsMatchSourceJoinData resultList = XmlDeserializer<BetradarStatisticsMatchSourceJoinData>.DeserializeXmlData(content);
                         Log.Debug($"GetDataAndProcess - deserialized {resultList?.Matches?.Length} number of matches.");
 
                         _mc.Delete(CacheKey);

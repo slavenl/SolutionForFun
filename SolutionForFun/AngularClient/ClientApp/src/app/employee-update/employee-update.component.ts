@@ -19,13 +19,13 @@ export class EmployeeUpdateComponent implements OnInit {
   constructor(private dataservice: EmployeeDataService, private route: Router) {
   }
 
-  @ViewChild('closeBtn') cb: ElementRef;
+  @ViewChild('closeBtn', { static: false }) cb: ElementRef;
 
   ngOnInit() {
     this.LoadInitialData(this.employeeId);
   }
 
-  @ViewChild('editEmployeeForm') myForm: NgForm;
+  @ViewChild('editEmployeeForm', { static: true }) myForm: NgForm;
 
   LoadInitialData(employeeId) {
     this.dataservice.getEmployeeById(employeeId).subscribe((res) => {

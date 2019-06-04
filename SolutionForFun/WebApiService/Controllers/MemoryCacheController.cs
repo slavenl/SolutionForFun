@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Models.BetRadarFeed;
 using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using WebApiService.Contracts.Models;
 
 namespace WebApiService.Controllers
@@ -16,18 +16,12 @@ namespace WebApiService.Controllers
     [Route("api/[controller]")]
     public class MemoryCacheController : ControllerBase
     {
-        private IMemoryCache _cache;
-        IConfiguration _config;
+        private readonly IMemoryCache _cache;
+        private readonly IConfiguration _config;
 
-        private ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
+        private readonly ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
 
-        public string CacheKey
-        {
-            get
-            {
-                return _config.GetSection("AppSettings").GetValue<string>("CacheKey");
-            }
-        }
+        public string CacheKey => _config.GetSection("AppSettings").GetValue<string>("CacheKey");
 
         public MemoryCacheController(IConfiguration config, IMemoryCache memoryCache)
         {
@@ -46,16 +40,20 @@ namespace WebApiService.Controllers
             Log.Information($"GetStatus at :: {DateTime.Now}");
 
             cacheLock.EnterReadLock();
-            var result = _cache.Get<StampedJoinData>(CacheKey);
+            StampedJoinData result = _cache.Get<StampedJoinData>(CacheKey);
             cacheLock.ExitReadLock();
 
             //await Task.Delay(1);
             await Task.CompletedTask;
             ;
             if (result != null)
+            {
                 return Ok(new { LastSyncDateTime = result?.TimeStamp, NumberOfMappedEvents = result?.JoinData?.Matches.Count() });
+            }
             else
+            {
                 return Ok(new { LastSyncDateTime = "NOT SYNCED", NumberOfMappedEvents = 0 });
+            }
         }
 
         /// <summary>
@@ -69,7 +67,7 @@ namespace WebApiService.Controllers
             try
             {
                 cacheLock.EnterReadLock();
-                var result = _cache.Get<StampedJoinData>(CacheKey);
+                StampedJoinData result = _cache.Get<StampedJoinData>(CacheKey);
                 cacheLock.ExitReadLock();
 
                 if (result != null)
@@ -81,7 +79,7 @@ namespace WebApiService.Controllers
                     Log.Error($"GetBetRadarMatchIds :: CACHE object EMPTY");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Log.Error(@"Internal error: {ex}");
                 return StatusCode(StatusCodes.Status500InternalServerError);
@@ -90,8 +88,9 @@ namespace WebApiService.Controllers
             await Task.CompletedTask;
 
             if (null == itemList)
+            {
                 return NotFound();
-
+            }
 
             var jsonList = itemList.Select(n => new { IdOfSource = n.idOfSource, StatisticsMatchId = n.statisticsMatchId });
 
@@ -117,9 +116,13 @@ namespace WebApiService.Controllers
                 betRadarMatchId = GetFromCacheForBetRadarMatchId(basicCode);
 
                 if (betRadarMatchId > 0)
+                {
                     Log.Information($"GetBetRadarMatchIdByBasicCode for basicCode: {basicCode} found statisticsMatchId:{betRadarMatchId}");
+                }
                 else
+                {
                     Log.Information($"GetBetRadarMatchIdByBasicCode for basicCode: {basicCode} has NOT found statisticsMatchId.");
+                }
             }
             catch (Exception ex)
             {
@@ -137,10 +140,10 @@ namespace WebApiService.Controllers
             uint statisticsMatchId = 0;
 
             cacheLock.EnterReadLock();
-            var result = _cache.Get<StampedJoinData>(CacheKey);
+            StampedJoinData result = _cache.Get<StampedJoinData>(CacheKey);
             cacheLock.ExitReadLock();
 
-            foreach (var item in result.JoinData.Matches)
+            foreach (BetradarStatisticsMatchSourceJoinDataMatch item in result.JoinData.Matches)
             {
                 if ((basicCode.ToString()).Equals(item.idOfSource))
                 {

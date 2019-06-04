@@ -9,7 +9,7 @@ namespace WebApiService.Helpers
         {
             XmlSerializer serializer = new XmlSerializer(typeof(T));
 
-            var joinData = serializer.Deserialize(content) as T;
+            T joinData = serializer.Deserialize(content) as T;
 
             return joinData;
         }

@@ -8,13 +8,13 @@ namespace WebApiService.Infrastructure
 {
     public class WeatherRepository : IWeatherRepository
     {
-        private static string[] Summaries = new[]
-       {
+        private static readonly string[] Summaries = new[]
+        {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
         public List<ChartModel> GetData()
         {
-            var r = new Random();
+            Random r = new Random();
             return new List<ChartModel>()
             {
                 new ChartModel { Data = new List<int> { r.Next(1, 40) }, Label = "Data1" },
@@ -26,7 +26,7 @@ namespace WebApiService.Infrastructure
 
         public List<WeatherForecastModel> GetWeatherData()
         {
-            var rng = new Random();
+            Random rng = new Random();
             return Enumerable.Range(1, 20).Select(index => new WeatherForecastModel
             {
                 DateFormatted = DateTime.Now.AddDays(index).ToString("d"),

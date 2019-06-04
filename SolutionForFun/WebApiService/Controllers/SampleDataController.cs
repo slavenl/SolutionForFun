@@ -8,7 +8,7 @@ namespace WebApiService.Controllers
     [Route("api/[controller]")]
     public class SampleDataController : ControllerBase
     {
-        private IWeatherRepository _repository;
+        private readonly IWeatherRepository _repository;
 
         public SampleDataController(IWeatherRepository repository)
         {

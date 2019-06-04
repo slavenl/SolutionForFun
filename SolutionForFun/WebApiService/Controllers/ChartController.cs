@@ -10,8 +10,8 @@ namespace WebApiService.Controllers
     [ApiController]
     public class ChartController : ControllerBase
     {
-        private IHubContext<ChartHub> _hub;
-        private IWeatherRepository _repository;
+        private readonly IHubContext<ChartHub> _hub;
+        private readonly IWeatherRepository _repository;
 
         public ChartController(IHubContext<ChartHub> hub, IWeatherRepository repository)
         {
@@ -21,7 +21,7 @@ namespace WebApiService.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var timerManager = new TimerManager(() => _hub.Clients.All.SendAsync("receivechartdata", _repository.GetData()));
+            TimerManager timerManager = new TimerManager(() => _hub.Clients.All.SendAsync("receivechartdata", _repository.GetData()));
 
             return Ok(new { Message = "Request Completed" });
         }
