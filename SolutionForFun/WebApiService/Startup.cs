@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 //using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Serilog;
-using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
 using System.Reflection;
@@ -42,6 +42,7 @@ namespace WebApiService
                     .AllowCredentials());
             });
 
+
             services.AddSignalR();
 
             //Repository
@@ -54,8 +55,11 @@ namespace WebApiService
 
             //  services.AddSingleton<IHostedService, DataProcessorService>();
 
+            //WebApi
+            // services.AddControllers();
+
             //MVC
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllersWithViews();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             //services.AddSwaggerGen(c =>
@@ -65,24 +69,24 @@ namespace WebApiService
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info
+                c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
                     Title = "SolutionForFun API",
                     Description = "A simple example ASP.NET Core Web API",
-                    TermsOfService = "None",
-                    Contact = new Contact
+                    TermsOfService = new Uri("https://example.com/terms"),
+                    Contact = new OpenApiContact
                     {
                         Name = "Slaven L.",
                         Email = string.Empty,
-                        Url = "https://twitter.com/spboyer"
+                        Url = new Uri("https://twitter.com/spboyer")
                     },
-                    License = new License
+                    License = new OpenApiLicense
                     {
                         Name = "Use under LICX",
-                        Url = "https://example.com/license"
+                        Url = new Uri("https://example.com/license")
                     }
-                });
+                }); ;
 
                 // Set the comments path for the Swagger JSON and UI.
                 string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -95,7 +99,7 @@ namespace WebApiService
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -122,11 +126,6 @@ namespace WebApiService
 
             app.UseCors("CorsPolicy");
 
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<ChartHub>("/chart");
-            });
-
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
@@ -139,14 +138,16 @@ namespace WebApiService
             });
 
 
-            app.UseMvc();
+            app.UseRouting();
 
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "{controller=Home}/{action=Index}/{id?}");
-            //});          
+            app.UseEndpoints(endpoints =>
+            {
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapControllers();
+                endpoints.MapHub<ChartHub>("/chart");
+            });
 
         }
     }

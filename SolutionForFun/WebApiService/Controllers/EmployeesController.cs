@@ -10,8 +10,8 @@ using WebApiService.Infrastructure;
 
 namespace WebApiService.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     //[DisableCors]
     public class EmployeesController : ControllerBase
     {
