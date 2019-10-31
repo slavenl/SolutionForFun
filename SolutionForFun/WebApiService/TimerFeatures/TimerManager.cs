@@ -15,7 +15,7 @@ namespace WebApiService.TimerFeatures
         {
             _action = action;
             _autoResetEvent = new AutoResetEvent(false);
-            _timer = new Timer(Execute, _autoResetEvent, 2000, 4000);
+            _timer = new Timer(Execute, _autoResetEvent, 4000, 8000);
             TimerStarted = DateTime.Now;
         }
 
