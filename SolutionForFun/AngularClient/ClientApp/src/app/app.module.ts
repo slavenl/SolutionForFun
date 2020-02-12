@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
 //import { NgbModule, NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
+//import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { ChartsModule } from 'ng2-charts';
 import { SidebarModule } from 'ng-sidebar';
 
@@ -27,7 +27,8 @@ import { SignalRComponent } from './signalr-client/signalr-client.component';
 import { CRUDComponent } from './employee/employee-list.component';
 import { NgbdModalContentModule } from './modal-component/modal-component.module';
 
-import { EmployeeDataService } from './services/employeedata.service'
+import { EmployeeDataService } from './services/employeedata.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 
 
@@ -47,7 +48,7 @@ import { EmployeeDataService } from './services/employeedata.service'
     BrowserModule,//.withServerTransition({ appId: 'ng-cli-universal' }),   
     NgbModule,
     NgbdModalContentModule,    
-    AngularFontAwesomeModule,
+  //  AngularFontAwesomeModule,
     ChartsModule,
     HttpClientModule,
   //  AppRoutingModule,
@@ -60,7 +61,8 @@ import { EmployeeDataService } from './services/employeedata.service'
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'signalR', component: SignalRComponent },   
       { path: 'crud', component: CRUDComponent },
-    ])
+    ]),
+    FontAwesomeModule
   ],
   providers: [
     EmployeeDataService
