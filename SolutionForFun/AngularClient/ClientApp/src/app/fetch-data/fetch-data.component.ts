@@ -1,11 +1,16 @@
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
 
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { WeatherForecastModel } from '../_interfaces/weatherforecastmodel';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+export enum KEY_CODE {
+  ESCAPE = 27,
+  P = 80
+}
 
 @Component({
   selector: 'fetch-data-component',
@@ -38,7 +43,7 @@ export class FetchDataComponent implements OnDestroy, OnInit {
       pageLength: 5
     };
     this.http.get<WeatherForecastModel[]>('http://localhost:5000/api/SampleData/WeatherForecasts')
-       //.map(this.extractData)
+      //.map(this.extractData)
       .subscribe(forecasts => {
         this.forecasts = forecasts;
         // Calling the DT trigger to manually render the table
@@ -56,23 +61,47 @@ export class FetchDataComponent implements OnDestroy, OnInit {
 
   //}
 
-  exportToCSharp():void {
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    console.log(event);
+
+
+    if ((<HTMLElement>event.target).tagName == "BODY") {
+      if (event.keyCode === KEY_CODE.ESCAPE ||
+        (event.keyCode === KEY_CODE.P && event.ctrlKey === true))
+      {
+        this.sendToCSharp(event.key);
+      }
+    }
+  }
+
+  sendToCSharp(mykey: string): void {
+    (async () => {
+      await window['CefSharp'].BindObjectAsync("keyboardBoundAsync");
+      let result = await window['keyboardBoundAsync'].sendKeyEvent2CSharp(mykey)
+      alert("Return from C#: " + result);
+
+    })();
+  }
+
+  exportToCSharp(): void {
     (async () => {
 
-      await window['CefSharp'].BindObjectAsync("boundAsync");
+      await window['CefSharp'].BindObjectAsync("dataBoundAsync");
 
-      alert(await window['boundAsync'].hello());
+      alert(await window['dataBoundAsync'].helloWithPrintDialog());
 
-      let result = await window['boundAsync'].multiply(7, 3);
-        alert(result);
+      let result = await window['dataBoundAsync'].multiply(7, 3);
+      alert(result);
 
-        let json = JSON.stringify(this.forecasts)
-      result = await window['boundAsync'].jsonReceiver(json);
-        if (1)
-          alert("Success");
-        else
-          alert("Fail");      
-     
+      let json = JSON.stringify(this.forecasts)
+      result = await window['dataBoundAsync'].jsonReceiver(json);
+      if (1)
+        alert("Success");
+      else
+        alert("Fail");
+
     })();
   }
 }
