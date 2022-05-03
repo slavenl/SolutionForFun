@@ -115,7 +115,7 @@ namespace WebApiService
 
             Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
-            .WriteTo.RollingFile(logLocation + "log-.txt",
+            .WriteTo.File(logLocation + "log-.txt",
                 //  rollingInterval: RollingInterval.Day,
                 outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}",
                 fileSizeLimitBytes: 5242880)//5mb
